@@ -13,7 +13,7 @@
 # touch Dagster_Basics3.py
 
 # ติดตั้ง Dagster
-# pip install dagit
+# pip install dagster
 
 # ติดตั้ง Dagit
 # pip install dagit
