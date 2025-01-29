@@ -1,3 +1,5 @@
+# Explore the Dagit UI by running the default example pipeline.
+
 # Install Dagster and Dagit on your machine and verify the installation.
 # การติดตั้ง Dagster และ Dagit บนเครื่อง
 
