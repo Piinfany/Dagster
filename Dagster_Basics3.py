@@ -1,3 +1,5 @@
+# Write a Dagster pipeline with a single op that prints 'Hello, Dagster!'.
+
 # Install Dagster and Dagit on your machine and verify the installation.
 # การติดตั้ง Dagster และ Dagit บนเครื่อง
 
