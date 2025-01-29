@@ -1,5 +1,3 @@
-# Explore the Dagit UI by running the default example pipeline.
-
 # Install Dagster and Dagit on your machine and verify the installation.
 # การติดตั้ง Dagster และ Dagit บนเครื่อง
 
@@ -9,11 +7,11 @@
 # เปิด Virtual Environment >> เห็นว่ามีชื่อ dagster-env ข้างหน้า $ แสดงว่าเปิด Virtual Environment อยู่
 # source dagster-env/bin/activate
 
-# สร้างไฟล์ Python ชื่อ Dagster_Basics2.py
-# touch Dagster_Basics2.py
+# สร้างไฟล์ Python ชื่อ Dagster_Basics3.py
+# touch Dagster_Basics3.py
 
 # ติดตั้ง Dagster
-# pip install dagster
+# pip install dagit
 
 # ติดตั้ง Dagit
 # pip install dagit
@@ -25,23 +23,19 @@
 # ทดสอบการติดตั้ง Dagster และ Dagit
 # dagit
 
-# นำโค้ดด้านล่างไปใส่ในไฟล์ Dagster_Basics2.py
+# นำโค้ดด้านล่างไปใส่ในไฟล์ Dagster_Basics3.py
 # สร้าง Pipeline
-# โค้ดนี้เป็นการสร้าง Pipeline ที่มี 2 Solids คือ hello_basics2 Solid และ goodbye_basics2 Solid
-from dagster import op,job
+# โค้ดนี้เป็นการสร้าง Pipeline ที่มี 1 Solids คือ hello_basics3 Solid
+from dagster import job, op
 
 @op
-def hello_basics2():
-    return "Dagster!"
-
-@op
-def goodbye_basics2(name: str):
-    print(f"Goodbye, {name}!")
+def hello_basics3():
+    return "Hello, Dagster!"
 
 @job
-def hello_dagster2():
-    goodbye_basics2(hello_basics2())
+def hello_dagster3():
+    hello_basics3()
 
 # ทดสอบการสร้าง Pipeline โดยใช้ Dagit
 # ใช้คำสั่งใน Terminal ดังนี้
-# dagit -f Dagster_Basics2.py
+# dagit -f Dagster_Basics3.py
