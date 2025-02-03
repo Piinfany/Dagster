@@ -8,7 +8,7 @@
 # source dagster-env/bin/activate
 
 # สร้างไฟล์ Python ชื่อ Dagster_Basics4.py
-# touch Dagster_Basics4.py
+# touch Dagster_Basics5.py
 
 # ติดตั้ง Dagster
 # pip install dagster
@@ -28,14 +28,22 @@
 from dagster import op, job, Field, String
 
 @op(config_schema={"str": Field(String, default_value="Hello, Dagster!")})
-def greeting(message):
-    str = message.op_config("str")
-    message.log.info(f"Message from config: {str}")
-    return str
+def get_name(context):
+     # เข้าถึงค่า config จาก context.op_config
+     str_value = context.op_config["str"]
+     # แสดงข้อความใน log
+     context.log.info(f"Message from config: {str_value}")
+     return str_value
+
+@op
+def greeting(context,name: str):
+    context.log.info(f"Hello, {name}!")
+    print(f"Hello, {name}!") 
 
 @job
 def hello_dagster5():
-    greeting()
+    greeting(get_name())
+
 
 # ทดสอบการสร้าง Pipeline โดยใช้ Dagit
 # ใช้คำสั่งใน Terminal ดังนี้
