@@ -25,7 +25,7 @@
 
 # นำโค้ดด้านล่างไปใส่ในไฟล์ Dagster_Basics5.py
 # สร้าง Pipeline
-from dagster import op, job, Field, String
+from dagster import op, job, Field, String 
 
 @op(config_schema={"str": Field(String, default_value="Hello, Dagster!")})
 def get_name(context):
