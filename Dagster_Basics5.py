@@ -1,5 +1,3 @@
-# Write a Dagster pipeline with a single op that prints 'Hello, Dagster!'.
-
 # Install Dagster and Dagit on your machine and verify the installation.
 # การติดตั้ง Dagster และ Dagit บนเครื่อง
 
@@ -9,11 +7,11 @@
 # เปิด Virtual Environment >> เห็นว่ามีชื่อ dagster-env ข้างหน้า $ แสดงว่าเปิด Virtual Environment อยู่
 # source dagster-env/bin/activate
 
-# สร้างไฟล์ Python ชื่อ Dagster_Basics3.py
-# touch Dagster_Basics3.py
+# สร้างไฟล์ Python ชื่อ Dagster_Basics4.py
+# touch Dagster_Basics4.py
 
-# ติดตั้ง Dagster >> ติดตั้งตาม version ได้
-# pip install dagster 
+# ติดตั้ง Dagster
+# pip install dagster
 
 # ติดตั้ง Dagit
 # pip install dagit
@@ -25,20 +23,16 @@
 # ทดสอบการติดตั้ง Dagster และ Dagit
 # dagit
 
-# นำโค้ดด้านล่างไปใส่ในไฟล์ Dagster_Basics3.py
+# นำโค้ดด้านล่างไปใส่ในไฟล์ Dagster_Basics5.py
 # สร้าง Pipeline
-# โค้ดนี้เป็นการสร้าง Pipeline ที่มี 1 Solids คือ hello_basics3 Solid
-from dagster import job, op
+from dagster import op, job, Field, String
 
-@op 
-def hello_basics3():
-    print(f"Hello, Dagster!")
-
+@op(config_schema={"str": Field(String, default_value="Hello, Dagster!")})
+def greeting(message):
+    str = message.op_config("str")
+    message.log.info(f"Message from config: {str}")
+    return str
 
 @job
-def hello_dagster3():
-    hello_basics3()
-
-# ทดสอบการสร้าง Pipeline โดยใช้ Dagit
-# ใช้คำสั่งใน Terminal ดังนี้
-# dagit -f Dagster_Basics3.py
+def hello_dagster5():
+    greeting()
