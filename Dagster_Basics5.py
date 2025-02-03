@@ -36,3 +36,7 @@ def greeting(message):
 @job
 def hello_dagster5():
     greeting()
+
+# ทดสอบการสร้าง Pipeline โดยใช้ Dagit
+# ใช้คำสั่งใน Terminal ดังนี้
+# dagit -f Dagster_Basics5.py
