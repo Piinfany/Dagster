@@ -1,3 +1,5 @@
+# Create a job with two ops: one generates a random number, and the other doubles it.
+
 # Install Dagster and Dagit on your machine and verify the installation.
 # การติดตั้ง Dagster และ Dagit บนเครื่อง
 
@@ -7,8 +9,8 @@
 # เปิด Virtual Environment >> เห็นว่ามีชื่อ dagster-env ข้างหน้า $ แสดงว่าเปิด Virtual Environment อยู่
 # source dagster-env/bin/activate
 
-# สร้างไฟล์ Python ชื่อ Dagster_Basics5.py
-# touch Dagster_Basics5.py
+# สร้างไฟล์ Python ชื่อ Ops_and_Jobs1.py
+# touch Ops_and_Jobs1.py
 
 # ติดตั้ง Dagster
 # pip install dagster
@@ -23,28 +25,31 @@
 # ทดสอบการติดตั้ง Dagster และ Dagit
 # dagit
 
-# นำโค้ดด้านล่างไปใส่ในไฟล์ Dagster_Basics5.py
+# นำโค้ดด้านล่างไปใส่ในไฟล์ Ops_and_Jobs1.py
 # สร้าง Pipeline
-from dagster import op, job, Field, String
+from dagster import op, job, Field
+import random  
 
-@op(config_schema={"str": Field(String, default_value="Hello, Dagster!")})
-def get_name(context):
-     # เข้าถึงค่า config จาก context.op_config
-     str_value = context.op_config["str"]
-     # แสดงข้อความใน log
-     context.log.info(f"Message from config: {str_value}") 
-     return str_value
+@op(config_schema={"min": Field(int, default_value=1), "max": Field(int, default_value=100)})
+def random_num(context):
+    min_num = context.op_config["min"]
+    max_num = context.op_config["max"]
+    rand_num = random.randint(min_num, max_num) 
+    print(f"Random Number : {rand_num}")
+    context.log.info(f"Random Number : {rand_num}")
+    return rand_num
 
 @op
-def greeting(context,name: str):
-    context.log.info(f"Hello, {name}!")
-    print(f"Hello, {name}!") 
+def double_num(context,number:int):
+    double_number = number * 2
+    print(f"Double Number : {double_number}") 
+    context.log.info(f"Double Number : {double_number}")
+    return double_number
 
 @job
-def hello_dagster5():
-    greeting(get_name())
-
+def result_number():
+    double_num(random_num())
 
 # ทดสอบการสร้าง Pipeline โดยใช้ Dagit
 # ใช้คำสั่งใน Terminal ดังนี้
-# dagit -f Dagster_Basics5.py
+# dagit -f Ops_and_Jobs1.py
