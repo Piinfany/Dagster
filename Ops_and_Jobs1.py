@@ -32,10 +32,12 @@ import random
 
 @op(config_schema={"min": Field(int, default_value=1), "max": Field(int, default_value=100)})
 def random_num(context):
+    # เข้าถึงค่า config จาก context.op_config
     min_num = context.op_config["min"]
     max_num = context.op_config["max"]
     rand_num = random.randint(min_num, max_num) 
     print(f"Random Number : {rand_num}")
+    # แสดงข้อความใน log
     context.log.info(f"Random Number : {rand_num}")
     return rand_num
 
