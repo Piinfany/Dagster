@@ -25,7 +25,7 @@
 # ทดสอบการติดตั้ง Dagster และ Dagit
 # dagit
 
-# นำโค้ดด้านล่างไปใส่ในไฟล์ Ops_and_Jobs1.py
+# นำโค้ดด้านล่างไปใส่ในไฟล์ Ops_and_Jobs2.py
 # สร้าง Pipeline
 from dagster import op, job, Field
 import random  
