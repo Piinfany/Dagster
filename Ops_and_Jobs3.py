@@ -34,8 +34,6 @@ def sum_number(context):
     # เข้าถึงค่า config จาก context.op_config
     numbers = context.op_config["numbers"]
     total = sum(numbers)
-    # แสดงข้อความใน log
-    context.log.info(f"Sum of the numbers is: {total}")
     print(f"Sum of the numbers is: {total}")
     return total # คืนค่า total
 
