@@ -49,9 +49,6 @@ def hello_dagster(): # สร้าง Job ชื่อ hello_dagster
 # ใช้คำสั่งใน Terminal ดังนี้
 # dagit -f Dagster_Basics1.py
 
-# หลังจากเปิด Dagit ให้เปิด Browser และเข้าไปที่ URL ดังนี้
-# http://127.0.0.1:52569
-
 
 
 
