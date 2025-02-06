@@ -1,8 +1,5 @@
 {
-    "operations": [
-      "print_config",
-      "other_op"
-    ],
-    "message": "Hello from Dagster!",
-    "another_message": "This is from the other operation!"
-  }
+    "message": "Hello from config",
+    "another_message": "This is another message",
+    "operations": ["print_config", "other_op"]
+}

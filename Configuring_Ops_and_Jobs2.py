@@ -37,7 +37,7 @@ def config_resource(context):
     context.log.info("Configuration read successfully")
     return config
 
-# Op 1: พิมพ์ข้อความจากการตั้งค่า
+# Op นี้ต้องการ resource ที่ชื่อว่า config
 @op(required_resource_keys={'config'}) 
 def print_config(context):
     context.log.info("Starting the print_config operation...")
@@ -47,7 +47,7 @@ def print_config(context):
     print(message)
     context.log.info("print_config operation completed.")
 
-# Op 2: แสดงข้อความอีกตัวหนึ่ง
+# Op นี้ต้องการ resource ที่ชื่อว่า config
 @op(required_resource_keys={'config'})
 def other_op(context):
     context.log.info("Starting the other_op operation...")
@@ -58,7 +58,7 @@ def other_op(context):
     context.log.info("other_op operation completed.")
 
 # สร้าง job ที่จะอ่าน operations จากไฟล์ config.json และรันการดำเนินการที่กำหนด
-@job(resource_defs={'config': config_resource})
+@job(resource_defs={'config': config_resource})  # เพิ่ม resource ที่ใช้ที่นี่
 def config_job(context):
     config = context.resources.config  # ดึงข้อมูลการตั้งค่าจาก resource
     operations_to_run = config.get('operations', [])  # อ่านรายชื่อ operations ที่ต้องรันจาก config.json
@@ -66,10 +66,11 @@ def config_job(context):
     # ใช้ for loop ถ้ามีหลาย operation
     for operation in operations_to_run:
         if operation == 'print_config':
-            print_config(context)
+            print_config(context)  # เรียกใช้ print_config
         elif operation == 'other_op':
-            other_op(context)
+            other_op(context)  # เรียกใช้ other_op
         # คุณสามารถเพิ่ม op อื่น ๆ ที่จะรันได้ในลักษณะเดียวกัน
+
 
 # ทดสอบการสร้าง Pipeline โดยใช้ Dagit
 # ใช้คำสั่งใน Terminal ดังนี้
