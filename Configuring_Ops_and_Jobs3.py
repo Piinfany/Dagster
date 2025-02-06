@@ -24,48 +24,39 @@
 
 # นำโค้ดด้านล่างไปใส่ในไฟล์ Configuring_Ops_and_Jobs3.py
 # สร้าง Pipeline
-import json
-import sys
-from dagster import op, job, resource
+from dagster import op, job, resource, Field
 
-
-# Resource สำหรับดึงการตั้งค่าจากไฟล์ JSON หรือจาก Argument
-@resource
+# resource >> ใช้ในการดึงข้อมูลการตั้งค่าจากแหล่งต่าง ๆ
+@resource(config_schema={"message": Field(str, default_value="Hello Dagster!!")})
 def config_resource(context):
-    # ตรวจสอบว่าได้รับค่าผ่าน command-line argument หรือไม่
-    if len(sys.argv) > 1:
-        # ใช้ค่าที่ผู้ใช้ป้อนจาก command line
-        message = sys.argv[1]
-        context.log.info(f"รับข้อความจาก argument: {message}")
-        return {"message": message}
-    
-    # ถ้าไม่มี argument ให้ดึงค่าจากไฟล์ config.json
-    context.log.info("กำลังอ่านการตั้งค่าจาก 'config.json'")
-    with open('config.json', 'r') as file:
-        config = json.load(file)
-    context.log.info("อ่านการตั้งค่าเรียบร้อยแล้ว")
+    # ดึง configuration จาก run_config ที่กำหนดใน UI
+    config = context.resource_config
+    context.log.info(f"Configuration received: {config}")  # บันทึกข้อความใน logs ของ UI
     return config
 
-# Operation ที่ใช้สำหรับแสดงข้อความจากการตั้งค่า
+# Op นี้ต้องการ resource ที่ชื่อว่า config
 @op(required_resource_keys={'config'})
 def print_config(context):
-    context.log.info("กำลังเริ่มต้นการทำงานของ print_config...")
-
-    # ดึงข้อมูลการตั้งค่าจาก resource ชื่อว่า config
+    context.log.info("Starting the print_config operation...")
+    
+    # ดึงข้อมูลจาก resource ที่ชื่อว่า config
     config = context.resources.config
 
-    # ดึงค่าของ message ถ้าไม่พบให้แสดงข้อความว่า "ไม่พบข้อความ"
-    message = config.get("message", "ไม่พบข้อความ")
-
-    context.log.info(f"ข้อความจากการตั้งค่า: {message}")
+    # ดึงค่าของ message ถ้าไม่มีให้แสดงข้อความว่า "No message found."
+    message = config.get("message", "No message found.")
+    
+    context.log.info(f"Configuration message: {message}")
+    
     print(message)
+    
+    context.log.info("print_config operation completed.")
 
-    context.log.info("การทำงานของ print_config เสร็จสิ้น.")
-
-# Job ที่เชื่อมต่อ resource และ operation เข้าด้วยกัน
+# สร้าง job ซึ่งจะใช้ resource ที่ชื่อว่า config_resource ในการดึงข้อมูลการตั้งค่า
 @job(resource_defs={'config': config_resource})
 def config_job():
     print_config()
+
+# python3 Configuring_Ops_and_Jobs3.py
 
 # ทดสอบการสร้าง Pipeline โดยใช้ Dagit
 # ใช้คำสั่งใน Terminal ดังนี้
